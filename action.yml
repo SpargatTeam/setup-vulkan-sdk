@@ -27,9 +27,9 @@ runs:
       shell: bash
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe
-        ./VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=C:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
-        echo "VULKAN_SDK=C:\VulkanSDK\${{ inputs.version }}" >> $GITHUB_ENV
-        echo "Path=$VULKAN_SDK\Bin;$Path" >> $GITHUB_ENV
+        start /wait VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
+        echo "VULKAN_SDK=C:\\VulkanSDK\\${{ inputs.version }}" >> $GITHUB_ENV
+        echo "Path=$VULKAN_SDK\\Bin;$Path" >> $GITHUB_ENV
 
     # linux
     - name: Install Vulkan SDK (Linux)
@@ -38,7 +38,7 @@ runs:
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/linux/vulkan-sdk.run
         chmod +x vulkan-sdk.run
-        ./vulkan-sdk.run -- --accept-licenses --default-answer --confirm-command install --install-components "${{ inputs.components }}"
+        sudo ./vulkan-sdk.run -- --accept-licenses --default-answer --confirm-command install --install-components "${{ inputs.components }}"
         echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
 
@@ -59,7 +59,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: |
-          ${{ runner.os == 'Windows' && 'C:\VulkanSDK\${{ inputs.version }}' || '' }}
+          ${{ runner.os == 'Windows' && 'C:\\VulkanSDK\\${{ inputs.version }}' || '' }}
           ${{ runner.os == 'Linux' && '/opt/VulkanSDK/${{ inputs.version }}/x86_64' || '' }}
           ${{ runner.os == 'macOS' && '/Applications/VulkanSDK/${{ inputs.version }}/macOS' || '' }}
         key: vulkan-sdk-${{ inputs.version }}-${{ runner.os }}
