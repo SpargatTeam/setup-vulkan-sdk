@@ -24,7 +24,7 @@ runs:
     # windows
     - name: Install Vulkan SDK (Windows)
       if: runner.os == 'Windows'
-      shell: bash
+      shell: powershell
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe
         start /wait VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
@@ -48,7 +48,7 @@ runs:
       shell: bash
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/mac/vulkan-sdk.dmg
-        hdiutil attach vulkan-sdk.dmg
+        sudo hdiutil attach vulkan-sdk.dmg
         sudo installer -pkg /Volumes/VulkanSDK/VulkanSDK-${{ inputs.version }}.pkg -target /
         echo "VULKAN_SDK=/Applications/VulkanSDK/${{ inputs.version }}/macOS" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
