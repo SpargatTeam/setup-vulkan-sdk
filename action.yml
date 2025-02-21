@@ -26,7 +26,7 @@ runs:
       if: runner.os == 'Windows'
       shell: powershell
       run: |
-        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe" -OutFile "VulkanSDK-${{ inputs.version }}-Installer.exe"
+        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe" -OutFile "VulkanSDK-${{ inputs.version }}-Installer.exe" -TimeoutSec 600
         .\VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
         echo "VULKAN_SDK=C:\\VulkanSDK\\${{ inputs.version }}" >> $GITHUB_ENV
         echo "Path=$VULKAN_SDK\\Bin;$Path" >> $GITHUB_ENV
@@ -48,8 +48,10 @@ runs:
       shell: bash
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/mac/vulkan-sdk.dmg
-        sudo hdiutil attach vulkan-sdk.dmg
-        sudo installer -pkg /Volumes/VulkanSDK/VulkanSDK-${{ inputs.version }}.pkg -target /
+        brew install p7zip
+        7z x vulkan-sdk.dmg -ovulkan-sdk
+        PKG_PATH=$(find vulkan-sdk -name "*.pkg")
+        sudo installer -pkg "$PKG_PATH" -target / --install-components "${{ inputs.components }}"
         echo "VULKAN_SDK=/Applications/VulkanSDK/${{ inputs.version }}/macOS" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
 
