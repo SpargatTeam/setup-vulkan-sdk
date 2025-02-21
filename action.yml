@@ -1,4 +1,4 @@
-name: 'Setup Vulkan SDK'
+name: 'Setup Vulkan SDK multiplatform'
 description: 'Setup Vulkan SDK using GitHub Actions'
 inputs:
   version:
