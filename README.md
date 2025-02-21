@@ -17,4 +17,4 @@
           cache: 'true'  # Vulkan Cache
 ```
 
-### Working perfect for Linux, good for macos but no components extra and for windows a....
+### Working perfect for Linux and Windows, good for macos but no components extra
