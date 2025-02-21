@@ -27,7 +27,7 @@ runs:
       shell: powershell
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe
-        start /wait VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
+        .\VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
         echo "VULKAN_SDK=C:\\VulkanSDK\\${{ inputs.version }}" >> $GITHUB_ENV
         echo "Path=$VULKAN_SDK\\Bin;$Path" >> $GITHUB_ENV
 
@@ -37,7 +37,7 @@ runs:
       shell: bash
       run: |
         curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/linux/vulkan-sdk.run
-        chmod +x vulkan-sdk.run
+        chmod 777 vulkan-sdk.run
         sudo ./vulkan-sdk.run -- --accept-licenses --default-answer --confirm-command install --install-components "${{ inputs.components }}"
         echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
