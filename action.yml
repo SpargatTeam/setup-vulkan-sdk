@@ -1,0 +1,65 @@
+name: 'Setup Vulkan SDK'
+description: 'Setup Vulkan SDK using GitHub Actions'
+inputs:
+  version:
+    description: 'Vulkan SDK version to install'
+    default: '1.3.296.0'
+    required: true
+  components:
+    description: 'List of Vulkan SDK components to install (e.g., Vulkan-Headers, Vulkan-Loader, Glslang)'
+    default: 'Vulkan-Headers,Vulkan-Loader'
+    required: true
+  cache:
+    description: 'Enable caching for Vulkan SDK'
+    default: 'false'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    # detect os
+    - name: Detect OS
+      shell: bash
+      run: echo "Running on $RUNNER_OS"
+
+    # windows
+    - name: Install Vulkan SDK (Windows)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe
+        ./VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=C:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
+        echo "VULKAN_SDK=C:\VulkanSDK\${{ inputs.version }}" >> $GITHUB_ENV
+        echo "Path=$VULKAN_SDK\Bin;$Path" >> $GITHUB_ENV
+
+    # linux
+    - name: Install Vulkan SDK (Linux)
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/linux/vulkan-sdk.run
+        chmod +x vulkan-sdk.run
+        ./vulkan-sdk.run -- --accept-licenses --default-answer --confirm-command install --install-components "${{ inputs.components }}"
+        echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
+        echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
+
+    # macos
+    - name: Install Vulkan SDK (macOS)
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/mac/vulkan-sdk.dmg
+        hdiutil attach vulkan-sdk.dmg
+        sudo installer -pkg /Volumes/VulkanSDK/VulkanSDK-${{ inputs.version }}.pkg -target /
+        echo "VULKAN_SDK=/Applications/VulkanSDK/${{ inputs.version }}/macOS" >> $GITHUB_ENV
+        echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
+
+    # cache
+    - name: Cache Vulkan SDK
+      if: inputs.cache == 'true'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ runner.os == 'Windows' && 'C:\VulkanSDK\${{ inputs.version }}' || '' }}
+          ${{ runner.os == 'Linux' && '/opt/VulkanSDK/${{ inputs.version }}/x86_64' || '' }}
+          ${{ runner.os == 'macOS' && '/Applications/VulkanSDK/${{ inputs.version }}/macOS' || '' }}
+        key: vulkan-sdk-${{ inputs.version }}-${{ runner.os }}
