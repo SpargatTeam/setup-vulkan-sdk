@@ -41,11 +41,14 @@ runs:
       if: runner.os == 'Linux'
       shell: bash
       run: |
-        curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/linux/vulkan-sdk.run
-        chmod 777 vulkan-sdk.run
-        sudo ./vulkan-sdk.run -- --accept-licenses --default-answer --confirm-command install --install-components "${{ inputs.components }}"
+        curl -LO https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/linux/vulkansdk-linux-x86_64-${{ inputs.version }}.tar.xz
+        sudo mkdir -p /opt/VulkanSDK
+        sudo tar -xvf vulkansdk-linux-x86_64-${{ inputs.version }}.tar.xz -C /opt/VulkanSDK
         echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
+        if [ -n "${{ inputs.components }}" ]; then
+          sudo /opt/VulkanSDK/${{ inputs.version }}/setup-env.sh --install-components "${{ inputs.components }}"
+        fi
 
     # macos
     - name: Install Vulkan SDK (macOS)

@@ -10,9 +10,11 @@
 
 ``` yaml
       - name: Setup Vulkan SDK # action name
-        uses: SpargatTeam/setup-vulkan-sdk@v1.0.0
+        uses: SpargatTeam/setup-vulkan-sdk@main
         with:
           version: '1.3.296.0'  # Vulkan SDK version you want
           components: 'Vulkan-Headers,Vulkan-Loader,Glslang'  # Vulkan components you need
           cache: 'true'  # Vulkan Cache
 ```
+
+### Working perfect for Linux, good for macos but no components extra and for windows a....
