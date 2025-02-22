@@ -47,13 +47,7 @@ runs:
         echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
         if [ -n "${{ inputs.components }}" ]; then
-          cd opt
-          cd VulkanSDK
-          cd ${{ inputs.version }}
-          sudo bash setup-env.sh --install-components "${{ inputs.components }}"
-          cd ../
-          cd ../
-          cd ../
+          sudo bash /opt/VulkanSDK/${{ inputs.version }}/setup-env.sh --install-components "${{ inputs.components }}"
         fi
 
     # macos
