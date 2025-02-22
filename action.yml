@@ -27,12 +27,7 @@ runs:
       shell: bash
       run: |
         curl -LO "https://sdk.lunarg.com/sdk/download/${{ inputs.version }}/windows/VulkanSDK-${{ inputs.version }}-Installer.exe"
-
-    - name: Install Vulkan SDK (Windows)
-      if: runner.os == 'Windows'
-      shell: powershell
-      run: |
-        start VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
+        start VulkanSDK-${{ inputs.version }}-Installer.exe /S /COMPONENTS="${{ inputs.components }}"
         echo "VULKAN_SDK=C:\\VulkanSDK\\${{ inputs.version }}" >> $GITHUB_ENV
         echo "Path=$VULKAN_SDK\\Bin;$Path" >> $GITHUB_ENV
 

@@ -13,7 +13,7 @@
         uses: SpargatTeam/setup-vulkan-sdk@main
         with:
           version: '1.3.296.0'  # Vulkan SDK version you want
-          components: 'Vulkan-Headers,Vulkan-Loader,Glslang'  # Vulkan components you need
+          components: 'Vulkan-Headers,Vulkan-Loader'  # Vulkan components you need
           cache: 'true'  # Vulkan Cache
 ```
 
