@@ -6,7 +6,7 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SpargatTeam/setup-vulkan-sdk)
 
-## You can see the extension on Marketplace <a>https://github.com/marketplace/actions/setup-vulkan-sdk-multiplatform</a>
+## You can see the extension on Marketplace <a href="https://github.com/marketplace/actions/setup-vulkan-sdk-multiplatform">here</a>
 
 ## Usage example
 
