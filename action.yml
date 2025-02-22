@@ -32,7 +32,7 @@ runs:
       if: runner.os == 'Windows'
       shell: powershell
       run: |
-        .\VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
+        start VulkanSDK-${{ inputs.version }}-Installer.exe /S /D=D:\VulkanSDK\${{ inputs.version }} /COMPONENTS="${{ inputs.components }}"
         echo "VULKAN_SDK=C:\\VulkanSDK\\${{ inputs.version }}" >> $GITHUB_ENV
         echo "Path=$VULKAN_SDK\\Bin;$Path" >> $GITHUB_ENV
 
@@ -47,7 +47,13 @@ runs:
         echo "VULKAN_SDK=/opt/VulkanSDK/${{ inputs.version }}/x86_64" >> $GITHUB_ENV
         echo "PATH=$VULKAN_SDK/bin:$PATH" >> $GITHUB_ENV
         if [ -n "${{ inputs.components }}" ]; then
-          sudo /opt/VulkanSDK/${{ inputs.version }}/setup-env.sh --install-components "${{ inputs.components }}"
+          cd opt
+          cd VulkanSDK
+          cd ${{ inputs.version }}
+          sudo bash setup-env.sh --install-components "${{ inputs.components }}"
+          cd ../
+          cd ../
+          cd ../
         fi
 
     # macos
