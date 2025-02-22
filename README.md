@@ -2,15 +2,19 @@
 
 ## Made by SpargatTeam for help BlockmanLORD production for Vulkan.
 
-## Latest release
+## Informations of the project
+
+### Latest release
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SpargatTeam/setup-vulkan-sdk)
 
-## You can see the extension on Marketplace <a href="https://github.com/marketplace/actions/setup-vulkan-sdk-multiplatform">here</a>
+### You can see the extension on Marketplace [https://github.com/marketplace/actions/setup-vulkan-sdk-multiplatform](here)
 
-## Usage example
+### Working perfect for Linux and Windows, good for macos but no components extra
 
-## For latest stable
+## Usage example of the project
+
+### For latest stable
 
 ``` yaml
       - name: Setup Vulkan SDK # action name
@@ -21,7 +25,7 @@
           cache: 'true'  # Vulkan Cache
 ```
 
-## For latest comit (unstable)
+### For latest comit (unstable)
 
 ``` yaml
       - name: Setup Vulkan SDK # action name
@@ -31,5 +35,3 @@
           components: 'Vulkan-Headers,Vulkan-Loader'  # Vulkan components you need
           cache: 'true'  # Vulkan Cache
 ```
-
-## Working perfect for Linux and Windows, good for macos but no components extra
