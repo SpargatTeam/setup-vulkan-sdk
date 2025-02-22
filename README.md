@@ -6,7 +6,9 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SpargatTeam/setup-vulkan-sdk)
 
-### Usage example
+## You can see the extension on Marketplace <a>https://github.com/marketplace/actions/setup-vulkan-sdk-multiplatform</a>
+
+## Usage example
 
 ``` yaml
       - name: Setup Vulkan SDK # action name
@@ -17,4 +19,4 @@
           cache: 'true'  # Vulkan Cache
 ```
 
-### Working perfect for Linux and Windows, good for macos but no components extra
+## Working perfect for Linux and Windows, good for macos but no components extra
